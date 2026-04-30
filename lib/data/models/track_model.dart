@@ -1,0 +1,144 @@
+import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
+import 'package:path/path.dart' as p;
+
+part 'track_model.g.dart';
+
+@HiveType(typeId: 0)
+class TrackModel extends HiveObject {
+  @HiveField(0)
+  final String id;
+
+  @HiveField(1)
+  final String title;
+
+  @HiveField(2)
+  final String artist;
+
+  @HiveField(3)
+  final String album;
+
+  @HiveField(4)
+  final String filePath;
+
+  @HiveField(5)
+  final int duration;
+
+  @HiveField(6)
+  final int fileSize;
+
+  @HiveField(7)
+  final DateTime createdAt;
+
+  @HiveField(8)
+  final String genre;
+
+  @HiveField(9)
+  final int bitrate;
+
+  @HiveField(10)
+  final int sampleRate;
+
+  @HiveField(11)
+  final int channels;
+
+  @HiveField(12)
+  final int playCount;
+
+  @HiveField(13)
+  final DateTime? lastPlayed;
+
+  @HiveField(14)
+  final bool isFavorite;
+
+  TrackModel({
+    required this.id,
+    required this.title,
+    required this.artist,
+    required this.album,
+    required this.filePath,
+    required this.duration,
+    required this.fileSize,
+    required this.createdAt,
+    this.genre = 'Unknown',
+    this.bitrate = 0,
+    this.sampleRate = 0,
+    this.channels = 0,
+    this.playCount = 0,
+    this.lastPlayed,
+    this.isFavorite = false,
+  });
+
+  factory TrackModel.fromTrack(Track track) {
+    return TrackModel(
+      id: track.id,
+      title: track.title,
+      artist: track.artist,
+      album: track.album,
+      filePath: track.filePath,
+      duration: track.duration.inMilliseconds,
+      fileSize: track.fileSize,
+      createdAt: track.createdAt,
+      genre: track.genre,
+      bitrate: track.bitrate,
+      sampleRate: track.sampleRate,
+      channels: track.channels,
+      playCount: 0,
+      lastPlayed: null,
+      isFavorite: false,
+    );
+  }
+
+  Track toTrack() {
+    return Track(
+      id: id,
+      title: title,
+      artist: artist,
+      album: album,
+      filePath: filePath,
+      duration: Duration(milliseconds: duration),
+      fileSize: fileSize,
+      createdAt: createdAt,
+      genre: genre,
+      bitrate: bitrate,
+      sampleRate: sampleRate,
+      channels: channels,
+    );
+  }
+
+  TrackModel copyWith({
+    String? id,
+    String? title,
+    String? artist,
+    String? album,
+    String? filePath,
+    int? duration,
+    int? fileSize,
+    DateTime? createdAt,
+    String? genre,
+    int? bitrate,
+    int? sampleRate,
+    int? channels,
+    int? playCount,
+    DateTime? lastPlayed,
+    bool? isFavorite,
+  }) {
+    return TrackModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      artist: artist ?? this.artist,
+      album: album ?? this.album,
+      filePath: filePath ?? this.filePath,
+      duration: duration ?? this.duration,
+      fileSize: fileSize ?? this.fileSize,
+      createdAt: createdAt ?? this.createdAt,
+      genre: genre ?? this.genre,
+      bitrate: bitrate ?? this.bitrate,
+      sampleRate: sampleRate ?? this.sampleRate,
+      channels: channels ?? this.channels,
+      playCount: playCount ?? this.playCount,
+      lastPlayed: lastPlayed ?? this.lastPlayed,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
+}
