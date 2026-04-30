@@ -69,4 +69,3 @@ flutter:
   #   - html: Better compatibility, smaller bundle size
   #   - canvaskit: Consistent performance across platforms
   # @default: html
-  web-renderer: html
