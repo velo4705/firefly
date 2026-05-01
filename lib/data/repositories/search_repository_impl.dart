@@ -15,15 +15,6 @@ abstract class SearchRepository {
   /// Search for playlists
   Future<List<SearchResult>> searchPlaylists(String query);
 
-  /// Get track details from a specific service
-  Future<SearchResult?> getTrackDetails(String trackId, String service);
-
-  /// Get album details from a specific service
-  Future<SearchResult?> getAlbumDetails(String albumId, String service);
-
-  /// Get artist details from a specific service
-  Future<SearchResult?> getArtistDetails(String artistId, String service);
-
   /// Get recommendations based on seed tracks
   Future<List<SearchResult>> getRecommendations({
     List<String>? seedTracks,
@@ -120,15 +111,15 @@ class SearchRepositoryImpl implements SearchRepository {
                   ?['browseEndpoint']?['browseId'] ?? '';
 
               if (title.isNotEmpty) {
-                results.add(SearchResult(
-                  id: 'youtube_album_$browseId',
-                  title: title,
-                  artist: subtitle,
-                  type: 'album',
-                  service: 'youtube',
-                  coverArt: album['thumbnail']?['musicThumbnailRenderer']
-                      ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
-                ));
+              results.add(SearchResult(
+                id: 'youtube_album_$browseId',
+                title: title,
+                artist: subtitle,
+                type: 'album',
+                service: 'youtube',
+                imageUrl: album['thumbnail']?['musicThumbnailRenderer']
+                    ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
+              ));
               }
             }
           }
@@ -171,15 +162,15 @@ class SearchRepositoryImpl implements SearchRepository {
                   ?['browseEndpoint']?['browseId'] ?? '';
 
               if (title.isNotEmpty) {
-                results.add(SearchResult(
-                  id: 'youtube_artist_$browseId',
-                  title: title,
-                  artist: '',
-                  type: 'artist',
-                  service: 'youtube',
-                  coverArt: artist['thumbnail']?['musicThumbnailRenderer']
-                      ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
-                ));
+              results.add(SearchResult(
+                id: 'youtube_artist_$browseId',
+                title: title,
+                artist: '',
+                type: 'artist',
+                service: 'youtube',
+                imageUrl: artist['thumbnail']?['musicThumbnailRenderer']
+                    ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
+              ));
               }
             }
           }
@@ -223,15 +214,16 @@ class SearchRepositoryImpl implements SearchRepository {
                   ?['browseEndpoint']?['browseId'] ?? '';
 
               if (title.isNotEmpty) {
-                results.add(SearchResult(
-                  id: 'youtube_playlist_$browseId',
-                  title: title,
-                  artist: subtitle,
-                  type: 'playlist',
-                  service: 'youtube',
-                  coverArt: playlist['thumbnail']?['musicThumbnailRenderer']
-                      ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
-                ));
+              results.add(SearchResult(
+                id: 'youtube_playlist_$browseId',
+                title: title,
+                artist: subtitle,
+                type: 'playlist',
+                service: 'youtube',
+                imageUrl: playlist['thumbnail']?['musicThumbnailRenderer']
+                    ?['thumbnail']['thumbnails']?[0]?['url'] ?? '',
+                trackCount: 0,
+              ));
               }
             }
           }
@@ -261,6 +253,7 @@ class SearchRepositoryImpl implements SearchRepository {
           artist: trackData['videoDetails']?['author'] ?? '',
           type: 'track',
           service: 'youtube',
+          imageUrl: '',
         );
       }
     } catch (e) {
@@ -287,6 +280,7 @@ class SearchRepositoryImpl implements SearchRepository {
           artist: '',
           type: 'album',
           service: 'youtube',
+          imageUrl: '',
         );
       }
     } catch (e) {
@@ -313,6 +307,7 @@ class SearchRepositoryImpl implements SearchRepository {
           artist: '',
           type: 'artist',
           service: 'youtube',
+          imageUrl: '',
         );
       }
     } catch (e) {
@@ -320,8 +315,6 @@ class SearchRepositoryImpl implements SearchRepository {
     }
     return null;
   }
-
-  @override
   Future<List<SearchResult>> getRecommendations({
     List<String>? seedTracks,
     List<String>? seedArtists,
@@ -384,7 +377,7 @@ class SearchRepositoryImpl implements SearchRepository {
       artist: artistNames,
       type: 'track',
       service: 'spotify',
-      coverArt: coverArt,
+      imageUrl: coverArt,
     );
   }
 
@@ -401,7 +394,7 @@ class SearchRepositoryImpl implements SearchRepository {
       artist: artistNames,
       type: 'album',
       service: 'spotify',
-      coverArt: coverArt,
+      imageUrl: coverArt,
     );
   }
 
@@ -415,7 +408,7 @@ class SearchRepositoryImpl implements SearchRepository {
       artist: '',
       type: 'artist',
       service: 'spotify',
-      coverArt: coverArt,
+      imageUrl: coverArt,
     );
   }
 
@@ -429,7 +422,21 @@ class SearchRepositoryImpl implements SearchRepository {
       artist: playlist['owner']?['display_name'] ?? 'Spotify',
       type: 'playlist',
       service: 'spotify',
-      coverArt: coverArt,
+      imageUrl: coverArt,
+    );
+  }
+
+  SearchResult _convertSpotifyPlaylist(Map<String, dynamic> playlist) {
+    final images = playlist['images'] as List<dynamic>;
+    final coverArt = images.isNotEmpty ? images[0]['url'] as String : '';
+
+    return SearchResult(
+      id: 'spotify_${playlist['id']}',
+      title: playlist['name'] ?? 'Unknown Playlist',
+      artist: playlist['owner']?['display_name'] ?? 'Spotify',
+      type: 'playlist',
+      service: 'spotify',
+      imageUrl: coverArt,
     );
   }
 

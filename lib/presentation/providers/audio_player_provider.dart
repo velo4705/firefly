@@ -150,3 +150,9 @@ enum PlaybackMode {
   repeatOne,
   shuffle,
 }
+
+enum PlayerState {
+  playing,
+  paused,
+  idle,
+}

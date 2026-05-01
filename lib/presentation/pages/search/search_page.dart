@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firefly/presentation/bloc/search/search_bloc.dart';
-import 'package:firefly/presentation/bloc/search/search_event.dart';
-import 'package:firefly/presentation/bloc/search/search_state.dart';
+import 'package:firefly/domain/entities/search_result.dart';
 import 'package:firefly/presentation/widgets/cards/album_card.dart';
 import 'package:firefly/presentation/widgets/cards/artist_card.dart';
 import 'package:firefly/presentation/widgets/cards/track_card.dart';

@@ -220,7 +220,7 @@ class SpotifyApi {
       title: spotifyTrack['name'] ?? 'Unknown Title',
       artist: artistNames,
       album: album['name'] ?? 'Unknown Album',
-      filePath: '', // Spotify tracks don't have local files
+      filePath: '',
       duration: Duration(milliseconds: spotifyTrack['duration_ms'] ?? 0),
       fileSize: 0,
       createdAt: DateTime.now(),

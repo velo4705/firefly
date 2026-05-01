@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firefly/presentation/pages/local/local_music_page.dart';
+import 'package:flutter/services.dart';
+import 'package:firefly/presentation/pages/player/now_playing_page.dart';
+import 'package:firefly/presentation/widgets/player/mini_player.dart';
+import 'package:firefly/presentation/providers/audio_player_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:firefly/presentation/pages/online/online_music_page.dart';
 import 'package:firefly/presentation/pages/search/search_page.dart';
 import 'package:firefly/presentation/widgets/common/responsive_layout.dart';

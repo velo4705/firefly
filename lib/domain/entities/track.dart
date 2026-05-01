@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Track extends Equatable {
+class Track {
   final String id;
   final String title;
   final String artist;
@@ -13,6 +11,9 @@ class Track extends Equatable {
   final int bitrate;
   final int sampleRate;
   final int channels;
+  final int playCount;
+  final DateTime? lastPlayed;
+  final bool isFavorite;
 
   const Track({
     required this.id,
@@ -21,12 +22,15 @@ class Track extends Equatable {
     required this.album,
     required this.filePath,
     required this.duration,
-    this.fileSize = 0,
+    required this.fileSize,
     required this.createdAt,
-    this.genre = 'Unknown',
-    this.bitrate = 0,
-    this.sampleRate = 0,
-    this.channels = 0,
+    required this.genre,
+    required this.bitrate,
+    required this.sampleRate,
+    required this.channels,
+    this.playCount = 0,
+    this.lastPlayed,
+    this.isFavorite = false,
   });
 
   Track copyWith({
@@ -42,6 +46,9 @@ class Track extends Equatable {
     int? bitrate,
     int? sampleRate,
     int? channels,
+    int? playCount,
+    DateTime? lastPlayed,
+    bool? isFavorite,
   }) {
     return Track(
       id: id ?? this.id,
@@ -56,22 +63,9 @@ class Track extends Equatable {
       bitrate: bitrate ?? this.bitrate,
       sampleRate: sampleRate ?? this.sampleRate,
       channels: channels ?? this.channels,
+      playCount: playCount ?? this.playCount,
+      lastPlayed: lastPlayed ?? this.lastPlayed,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        artist,
-        album,
-        filePath,
-        duration,
-        fileSize,
-        createdAt,
-        genre,
-        bitrate,
-        sampleRate,
-        channels,
-      ];
 }

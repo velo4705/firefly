@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firefly/presentation/bloc/search/search_bloc.dart';
-import 'package:firefly/presentation/bloc/search/search_event.dart';
-import 'package:firefly/presentation/bloc/search/search_state.dart';
+
+
 import 'package:firefly/data/datasources/remote/spotify_api.dart';
 import 'package:firefly/data/datasources/remote/youtube_music_api.dart';
 import 'package:firefly/presentation/widgets/cards/track_card.dart';
@@ -14,6 +14,8 @@ import 'package:firefly/presentation/providers/audio_player_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firefly/presentation/pages/player/now_playing_page.dart';
 import 'package:firefly/domain/entities/track.dart';
+import 'package:firefly/domain/entities/search_result.dart';
+import 'package:firefly/data/repositories/search_repository_impl.dart';
 
 class OnlineMusicPage extends StatefulWidget {
   const OnlineMusicPage({super.key});

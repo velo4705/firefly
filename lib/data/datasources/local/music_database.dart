@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import '../models/track_model.dart';
+import '../../models/track_model.dart';
 
 class MusicDatabase {
   static final MusicDatabase _instance = MusicDatabase._internal();

@@ -1,10 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firefly/domain/usecases/search/search_tracks_usecase.dart';
 import 'package:firefly/domain/usecases/search/search_albums_usecase.dart';
-import 'package:firefly/domain/usecases/search/search_artists_usecase.dart';
-import 'package:firefly/domain/usecases/search/search_playlists_usecase.dart';
-import 'package:firefly/domain/usecases/search/get_recommendations_usecase.dart';
-import 'package:firefly/domain/usecases/search/get_trending_usecase.dart';
 import 'package:firefly/domain/entities/search_result.dart';
 import 'package:firefly/domain/repositories/search_repository.dart';
 
@@ -21,12 +17,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc({
     required SearchRepository repository,
-  })  : _searchTracksUseCase = SearchTracksUseCase(repository),
-        _searchAlbumsUseCase = SearchAlbumsUseCase(repository),
-        _searchArtistsUseCase = SearchArtistsUseCase(repository),
-        _searchPlaylistsUseCase = SearchPlaylistsUseCase(repository),
-        _getRecommendationsUseCase = GetRecommendationsUseCase(repository),
-        _getTrendingUseCase = GetTrendingUseCase(repository),
+  })  : _searchTracksUseCase = SearchTracksUseCaseImpl(repository),
+        _searchAlbumsUseCase = SearchAlbumsUseCaseImpl(repository),
+        _searchArtistsUseCase = SearchArtistsUseCaseImpl(repository),
+        _searchPlaylistsUseCase = SearchPlaylistsUseCaseImpl(repository),
+        _getRecommendationsUseCase = GetRecommendationsUseCaseImpl(repository),
+        _getTrendingUseCase = GetTrendingUseCaseImpl(repository),
         super(SearchInitial()) {
     on<SearchTracksEvent>(_onSearchTracks);
     on<SearchAlbumsEvent>(_onSearchAlbums);

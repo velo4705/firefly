@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-class Playlist extends Equatable {
+class Playlist {
   final String id;
   final String name;
   final List<String> trackIds;
@@ -30,7 +28,4 @@ class Playlist extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
-
-  @override
-  List<Object?> get props => [id, name, trackIds, createdAt, updatedAt];
 }
