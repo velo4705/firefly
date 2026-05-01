@@ -12,15 +12,8 @@ class AppBreakpoints {
 
   /// Get device type based on screen width
   static DeviceType getDeviceType(double width) {
-    if (width < smallTablet) {
-      return DeviceType.mobile;
-    } else if (width < tablet) {
-      return DeviceType.smallTablet;
-    } else if (width < smallDesktop) {
-      return DeviceType.tablet;
-    } else {
-      return DeviceType.desktop;
-    }
+    // Always use desktop layout for web builds
+    return DeviceType.desktop;
   }
 
   /// Get content width based on screen size
