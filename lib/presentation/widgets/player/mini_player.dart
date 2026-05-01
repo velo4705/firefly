@@ -10,7 +10,7 @@ class MiniPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = audioProvider ?? AudioPlayerProvider();
+    final provider = audioPlayer ?? AudioPlayerProvider();
     return AnimatedBuilder(
       animation: provider,
       builder: (context, child) {

@@ -1,34 +1,7 @@
 import 'package:firefly/data/datasources/remote/spotify_api.dart';
 import 'package:firefly/data/datasources/remote/youtube_music_api.dart';
 import 'package:firefly/domain/entities/search_result.dart';
-
-abstract class SearchRepository {
-  /// Search for tracks across all connected services
-  Future<List<SearchResult>> searchTracks(String query);
-
-  /// Search for albums
-  Future<List<SearchResult>> searchAlbums(String query);
-
-  /// Search for artists
-  Future<List<SearchResult>> searchArtists(String query);
-
-  /// Search for playlists
-  Future<List<SearchResult>> searchPlaylists(String query);
-
-  /// Get recommendations based on seed tracks
-  Future<List<SearchResult>> getRecommendations({
-    List<String>? seedTracks,
-    List<String>? seedArtists,
-    List<String>? seedGenres,
-    int limit = 20,
-  });
-
-  /// Get trending songs
-  Future<List<SearchResult>> getTrending();
-
-  /// Clear search cache
-  Future<void> clearCache();
-}
+import 'package:firefly/domain/repositories/search_repository.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
   final SpotifyApi _spotifyApi;
@@ -407,20 +380,6 @@ class SearchRepositoryImpl implements SearchRepository {
       title: artist['name'] ?? 'Unknown Artist',
       artist: '',
       type: 'artist',
-      service: 'spotify',
-      imageUrl: coverArt,
-    );
-  }
-
-  SearchResult _convertSpotifyPlaylist(Map<String, dynamic> playlist) {
-    final images = playlist['images'] as List<dynamic>;
-    final coverArt = images.isNotEmpty ? images[0]['url'] as String : '';
-
-    return SearchResult(
-      id: 'spotify_${playlist['id']}',
-      title: playlist['name'] ?? 'Unknown Playlist',
-      artist: playlist['owner']?['display_name'] ?? 'Spotify',
-      type: 'playlist',
       service: 'spotify',
       imageUrl: coverArt,
     );

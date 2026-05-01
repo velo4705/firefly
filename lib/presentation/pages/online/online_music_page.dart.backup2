@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firefly/presentation/bloc/search/search_bloc.dart';
+
+
 import 'package:firefly/data/datasources/remote/spotify_api.dart';
 import 'package:firefly/data/datasources/remote/youtube_music_api.dart';
 import 'package:firefly/presentation/widgets/cards/track_card.dart';
@@ -13,7 +15,6 @@ import 'package:provider/provider.dart';
 import 'package:firefly/presentation/pages/player/now_playing_page.dart';
 import 'package:firefly/domain/entities/track.dart';
 import 'package:firefly/domain/entities/search_result.dart';
-import 'package:firefly/data/repositories/search_repository_impl.dart';
 import 'package:firefly/data/repositories/search_repository_impl.dart';
 
 class OnlineMusicPage extends StatefulWidget {
@@ -160,11 +161,85 @@ class _OnlineMusicPageState extends State<OnlineMusicPage> with SingleTickerProv
   }
 
   Widget _buildResultItem(SearchResult result, String type) {
-    // Simplified version to avoid compilation errors
-    return ListTile(
-      title: Text(result.title, style: const TextStyle(color: Colors.white)),
-      subtitle: Text(result.artist, style: const TextStyle(color: Color(0xFFB3B3B3))),
-    );
+    switch (type) {
+      case 'tracks':
+        return TrackCard(
+          title: result.title,
+          artist: result.artist,
+          album: result.album ?? '',
+          duration: result.duration != null
+              ? Duration(milliseconds: result.duration!)
+              : Duration.zero,
+          coverArt: result.coverArt,
+          onTap: () {
+            // For demo, create a track from search result
+            final track = Track(
+              id: result.id,
+              title: result.title,
+              artist: result.artist,
+              album: result.album ?? '',
+              filePath: '',
+              duration: result.duration != null
+                  ? Duration(milliseconds: result.duration!)
+                  : Duration.zero,
+              fileSize: 0,
+              createdAt: DateTime.now(),
+            );
+
+            final audioProvider = Provider.of<AudioPlayerProvider>(
+              context,
+              listen: false,
+            );
+
+            audioProvider.loadTrack(track);
+            audioProvider.play();
+
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const NowPlayingPage(),
+              ),
+            );
+          },
+        );
+      case 'albums':
+        return AlbumCard(
+          title: result.title,
+          artist: result.artist,
+          coverArt: result.coverArt,
+          onTap: () {
+            // Handle album tap
+          },
+        );
+      case 'artists':
+        return ArtistCard(
+          name: result.title,
+          coverArt: result.coverArt,
+          onTap: () {
+            // Handle artist tap
+          },
+        );
+      case 'playlists':
+        return PlaylistCard(
+          title: result.title,
+          subtitle: result.artist,
+          trackCount: result.trackCount ?? 0,
+          coverArt: result.coverArt,
+          onTap: () {
+            // Handle playlist tap
+          },
+        );
+      default:
+        return ListTile(
+          title: Text(
+            result.title,
+            style: const TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            result.artist,
+            style: const TextStyle(color: Color(0xFFB3B3B3)),
+          ),
+        );
+    }
   }
 
   Widget _buildBody(SearchState state) {

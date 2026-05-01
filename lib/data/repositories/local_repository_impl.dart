@@ -39,10 +39,10 @@ class LocalRepositoryImpl implements LocalRepository {
   @override
   Future<List<Track>> getLocalTracks() async {
     try {
-      final trackModels = _database.getAllTracks();
-      return trackModels.map((model) => model.toTrack()).toList();
+      final allTracks = _database.getAllTracks();
+      return allTracks.take(20).map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
-      throw Exception('Failed to get local tracks: $e');
+      throw Exception('Failed to get recent tracks: $e');
     }
   }
 
@@ -50,7 +50,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<List<Track>> getFavoriteTracks() async {
     try {
       final trackModels = _database.getFavoriteTracks();
-      return trackModels.map((model) => model.toTrack()).toList();
+      return trackModels.map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
       throw Exception('Failed to get favorite tracks: $e');
     }
@@ -60,7 +60,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<List<Track>> searchTracks(String query) async {
     try {
       final trackModels = _database.searchTracks(query);
-      return trackModels.map((model) => model.toTrack()).toList();
+      return trackModels.map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
       throw Exception('Failed to search tracks: $e');
     }
@@ -70,7 +70,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<List<Track>> getTracksByArtist(String artist) async {
     try {
       final trackModels = _database.getTracksByArtist(artist);
-      return trackModels.map((model) => model.toTrack()).toList();
+      return trackModels.map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
       throw Exception('Failed to get tracks by artist: $e');
     }
@@ -80,7 +80,7 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<List<Track>> getTracksByAlbum(String album) async {
     try {
       final trackModels = _database.getTracksByAlbum(album);
-      return trackModels.map((model) => model.toTrack()).toList();
+      return trackModels.map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
       throw Exception('Failed to get tracks by album: $e');
     }
@@ -98,7 +98,7 @@ class LocalRepositoryImpl implements LocalRepository {
         if (bLastPlayed == null) return -1;
         return bLastPlayed.compareTo(aLastPlayed);
       });
-      return allTracks.take(20).map((model) => model.toTrack()).toList();
+      return allTracks.take(20).map((model) => model.toTrack()).toList().cast<Track>();
     } catch (e) {
       throw Exception('Failed to get recent tracks: $e');
     }

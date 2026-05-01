@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:path/path.dart' as p;
+import 'package:firefly/domain/entities/track.dart';
 
 part 'track_model.g.dart';
 

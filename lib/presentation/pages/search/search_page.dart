@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firefly/presentation/bloc/search/search_bloc.dart';
 import 'package:firefly/domain/entities/search_result.dart';
+import 'package:firefly/domain/entities/track.dart';
+import 'package:firefly/data/datasources/remote/spotify_api.dart';
+import 'package:firefly/data/datasources/remote/youtube_music_api.dart';
+import 'package:firefly/data/repositories/search_repository_impl.dart';
 import 'package:firefly/presentation/widgets/cards/album_card.dart';
 import 'package:firefly/presentation/widgets/cards/artist_card.dart';
 import 'package:firefly/presentation/widgets/cards/track_card.dart';
@@ -86,7 +90,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
         backgroundColor: const Color(0xFF121212),
         elevation: 0,
         title: _buildSearchBar(),
-        bottom: _buildTabBar(),
+         bottom: _buildTabBar() as PreferredSizeWidget?,
       ),
       body: BlocProvider.value(
         value: _searchBloc,
@@ -138,22 +142,25 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   Widget _buildTabBar() {
-    return TabBar(
-      controller: _tabController,
-      tabs: _tabs,
-      indicatorColor: const Color(0xFFFFB300),
-      indicatorWeight: 3,
-      labelColor: const Color(0xFFFFB300),
-      unselectedLabelColor: const Color(0xFFB3B3B3),
-      labelStyle: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.bold,
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: TabBar(
+        controller: _tabController,
+        tabs: _tabs,
+        indicatorColor: const Color(0xFFFFB300),
+        indicatorWeight: 3,
+        labelColor: const Color(0xFFFFB300),
+        unselectedLabelColor: const Color(0xFFB3B3B3),
+        labelStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 13,
+        ),
+        isScrollable: true,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
-      unselectedLabelStyle: const TextStyle(
-        fontSize: 13,
-      ),
-      isScrollable: true,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
     );
   }
 
@@ -273,42 +280,46 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   Widget _buildResultItem(SearchResult result, String type) {
     switch (type) {
       case 'tracks':
-        return TrackCard(
-          title: result.title,
-          artist: result.artist,
-          album: result.album ?? '',
-          duration: result.duration != null
-              ? Duration(milliseconds: result.duration!)
-              : Duration.zero,
-          coverArt: result.coverArt,
-          onTap: () {
+         return TrackCard(
+            track: Track(
+              id: result.id,
+              title: result.title,
+              artist: result.artist,
+              album: result.album ?? '',
+              filePath: '',
+              duration: result.duration ?? Duration.zero,
+              fileSize: 0,
+              createdAt: DateTime.now(),
+              genre: '',
+              bitrate: 128,
+              sampleRate: 44100,
+              channels: 2,
+            ),
+            onTap: () {
             // Handle track tap
           },
         );
-      case 'albums':
-        return AlbumCard(
-          title: result.title,
-          artist: result.artist,
-          coverArt: result.coverArt,
-          onTap: () {
+       case 'albums':
+          return AlbumCard(
+            title: result.title,
+            artist: result.artist,
+            onTap: () {
             // Handle album tap
           },
         );
-      case 'artists':
-        return ArtistCard(
-          name: result.title,
-          coverArt: result.coverArt,
-          onTap: () {
+       case 'artists':
+          return ArtistCard(
+            name: result.title,
+            genre: 'Unknown',
+            onTap: () {
             // Handle artist tap
           },
         );
-      case 'playlists':
-        return PlaylistCard(
-          title: result.title,
-          subtitle: result.artist,
-          trackCount: result.trackCount ?? 0,
-          coverArt: result.coverArt,
-          onTap: () {
+       case 'playlists':
+          return PlaylistCard(
+            title: result.title,
+            trackCount: result.trackCount ?? 0,
+            onTap: () {
             // Handle playlist tap
           },
         );

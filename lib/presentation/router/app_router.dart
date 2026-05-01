@@ -20,13 +20,13 @@ class AppRouter {
       case RouteConstants.search:
         return MaterialPageRoute(builder: (_) => const SearchPage());
       default:
-        return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-            body: Center(
-              child: Text('Route not found: ${settings.name}'),
-            ),
-          ),
-        );
+         return MaterialPageRoute(
+           builder: (_) => Scaffold(
+             body: Center(
+               child: Text('Route not found: ${settings.name}'),
+             ),
+           ),
+         );
     }
   }
 }

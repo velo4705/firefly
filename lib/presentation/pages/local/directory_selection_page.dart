@@ -241,39 +241,36 @@ class _DirectorySelectionPageState extends State<DirectorySelectionPage> {
                 ),
                 const SizedBox(height: 8),
                 
-                // Path input field
-                TextFormField(
-                  controller: _pathController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: kIsWeb ? 'Enter folder path' : 'Folder path',
-                    labelStyle: const TextStyle(color: Color(0xFFB3B3B3)),
-                    filled: true,
-                    fillColor: const Color(0xFF1E1E1E),
-                    border: OutlineBorder(
-                      side: const BorderSide(color: Color(0xFF2A2A2A)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    enabledBorder: OutlineBorder(
-                      side: const BorderSide(color: Color(0xFF2A2A2A)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineBorder(
-                      side: const BorderSide(color: Color(0xFFFFB300)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.folder_open, color: Color(0xFFB3B3B3)),
-                      onPressed: _pickDirectory,
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select a folder';
-                    }
-                    return null;
-                  },
-                ),
+                 // Path input field
+                 TextFormField(
+                   controller: _pathController,
+                   style: const TextStyle(color: Colors.white),
+                   decoration: InputDecoration(
+                     labelText: kIsWeb ? 'Enter folder path' : 'Folder path',
+                     labelStyle: const TextStyle(color: Color(0xFFB3B3B3)),
+                     filled: true,
+                     fillColor: const Color(0xFF1E1E1E),
+                     border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF2A2A2A)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFFFFB300)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                     suffixIcon: IconButton(
+                       icon: const Icon(Icons.folder_open, color: Color(0xFFB3B3B3)),
+                       onPressed: _pickDirectory,
+                     ),
+                   ),
+                   validator: (value) {
+                     if (value == null || value.isEmpty) {
+                       return 'Please select a folder';
+                     }
+                     return null;
+                   },
+                 ),
                 
                 if (_errorMessage != null)
                   Padding(

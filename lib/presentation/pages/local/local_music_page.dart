@@ -46,9 +46,8 @@ class _LocalMusicPageState extends State<LocalMusicPage> {
   Future<void> _selectDirectory() async {
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => MultiProvider(
+         builder: (context) => MultiProvider(
           providers: [
-            ChangeNotifierProvider.value(value: _localProvider),
             ChangeNotifierProvider.value(value: _audioProvider),
           ],
           child: const DirectorySelectionPage(),
@@ -133,9 +132,8 @@ class _LocalMusicPageState extends State<LocalMusicPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: _localProvider),
         ChangeNotifierProvider.value(value: _audioProvider),
       ],
       child: BlocProvider.value(

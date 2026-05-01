@@ -13,6 +13,15 @@ abstract class SearchRepository {
   /// Search for playlists
   Future<List<SearchResult>> searchPlaylists(String query);
 
+  /// Get track details from a specific service
+  Future<SearchResult?> getTrackDetails(String trackId, String service);
+
+  /// Get album details from a specific service
+  Future<SearchResult?> getAlbumDetails(String albumId, String service);
+
+  /// Get artist details from a specific service
+  Future<SearchResult?> getArtistDetails(String artistId, String service);
+
   /// Get recommendations based on seed tracks
   Future<List<SearchResult>> getRecommendations({
     List<String>? seedTracks,

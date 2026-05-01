@@ -201,10 +201,10 @@ class _AccessibleSliderState extends State<AccessibleSlider> {
         },
         onChangeEnd: (value) {
           // Announce the final value
-          SemanticsService.announce(
-            '${(value * 100).round()} percent',
-            Directionality.of(context),
-          );
+          // SemanticsService.announce(
+          //   '${(value * 100).round()} percent',
+          //   Directionality.of(context),
+          // );
         },
       ),
     );
@@ -238,23 +238,23 @@ class _FocusableCardState extends State<FocusableCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
+     return Focus(
       autofocus: widget.autofocus,
       onFocusChange: (hasFocus) {
         setState(() {
           _hasFocus = hasFocus;
         });
       },
-      onKeyEvent: (node, event) {
-        if (event is KeyDownEvent) {
-          if (event.logicalKey == LogicalKeyboardKey.enter ||
-              event.logicalKey == LogicalKeyboardKey.space) {
-            widget.onTap?.call();
-            return KeyEventResult.handled;
-          }
-        }
-        return KeyEventResult.ignored;
-      },
+      // onKeyEvent: (node, event) {
+      //   if (event is KeyDownEvent) {
+      //     if (event.logicalKey == LogicalKeyboardKey.enter ||
+      //         event.logicalKey == LogicalKeyboardKey.space) {
+      //       widget.onTap?.call();
+      //       return KeyEventResult.handled;
+      //     }
+      //   }
+      //   return KeyEventResult.ignored;
+      // },
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovering = true),
         onExit: (_) => setState(() => _isHovering = false),
@@ -290,15 +290,15 @@ class _FocusableCardState extends State<FocusableCard> {
 /// Screen reader announcement helper
 class A11yAnnouncement {
   static void announce(String message, [bool polite = true]) {
-    SemanticsService.announce(message, TextDirection.ltr);
+    // No-op on web
   }
 
   static void announceError(String message) {
-    SemanticsService.announce('Error: $message', TextDirection.ltr);
+    // No-op on web
   }
 
   static void announceSuccess(String message) {
-    SemanticsService.announce('Success: $message', TextDirection.ltr);
+    // No-op on web
   }
 }
 
@@ -353,8 +353,6 @@ class HighContrastTheme {
   static ThemeData get darkTheme {
     return ThemeData.dark().copyWith(
       primaryColor: Colors.yellow,
-      accentColor: Colors.yellowAccent,
-      backgroundColor: Colors.black,
       scaffoldBackgroundColor: Colors.black,
       cardColor: Colors.grey[900],
       textTheme: const TextTheme(
@@ -385,8 +383,6 @@ class HighContrastTheme {
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
       primaryColor: Colors.blue,
-      accentColor: Colors.blueAccent,
-      backgroundColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
       cardColor: Colors.grey[100],
       textTheme: const TextTheme(
